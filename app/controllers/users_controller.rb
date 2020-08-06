@@ -1,44 +1,46 @@
 class UsersController < ApplicationController
   def index
-    @users = User.all.order({ :username => :asc })
+    @list_of_all_users = User.all.order({ :username => :asc })
 
-    render({ :template => "users/index.html" })
+    render({ :template => "user_templates/index.html" })
   end
 
   def show
     the_username = params.fetch("the_username")
-    @user = User.where({ :username => the_username }).at(0)
+    matching_users = User.where({ :username => the_username })
+    @the_user = matching_users.at(0)
 
-    render({ :template => "users/show.html.erb" })
+    render({ :template => "user_templates/show.html.erb" })
   end
 
   def create
-    user = User.new
+    the_user = User.new
 
-    user.username = params.fetch("input_username")
+    the_user.username = params.fetch("query_username")
 
-    user.save
+    the_user.save
 
-    redirect_to("/users/#{user.username}")
+    redirect_to("/users/#{the_user.username}")
   end
 
   def update
     the_id = params.fetch("the_user_id")
-    user = User.where({ :id => the_id }).at(0)
+    matching_users = User.where({ :id => the_id })
+    the_user = matching_users.at(0)
 
+    the_user.username = params.fetch("query_username")
 
-    user.username = params.fetch("input_username")
-
-    user.save
+    the_user.save
     
-    redirect_to("/users/#{user.username}")
+    redirect_to("/users/#{the_user.username}")
   end
 
   def destroy
     username = params.fetch("the_username")
-    user = User.where({ :username => username }).at(0)
+    matching_users = User.where({ :username => username })
+    the_user = matching_users.at(0)
 
-    user.destroy
+    the_user.destroy
 
     redirect_to("/users")
   end

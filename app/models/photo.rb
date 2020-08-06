@@ -17,24 +17,56 @@ class Photo < ApplicationRecord
   validates(:image, { :presence => true })
 
   def poster
-    return User.where({ :id => self.owner_id }).at(0)
+    my_owner_id = self.owner_id
+
+    matching_users = User.where({ :id => my_owner_id })
+
+    the_user = matching_users.at(0)
+
+    return the_user
   end
 
   def comments
-    return Comment.where({ :photo_id => self.id })
+    my_id = self.id
+
+    matching_comments = Comment.where({ :photo_id => self.id })
+
+    return matching_comments
   end
 
   def likes
-    return Like.where({ :photo_id => self.id })
+    my_id = self.id
+
+    matching_likes = Like.where({ :photo_id => self.id })
+
+    return matching_likes
   end
 
   def fans
-    array_of_user_ids = self.likes.pluck(:fan_id)
+    my_likes = self.likes
+    
+    array_of_user_ids = Array.new
 
-    return User.where({ :id => array_of_user_ids })
+    my_likes.each do |a_like|
+      array_of_user_ids.push(a_like.fan_id)
+    end
+
+    matching_users = User.where({ :id => array_of_user_ids })
+
+    return matching_users
   end
 
   def fan_list
-    return self.fans.pluck(:username).to_sentence
+    my_fans = self.fans
+
+    array_of_usernames = Array.new
+
+    my_fans.each do |a_user|
+      array_of_usernames.push(a_user.username)
+    end
+
+    formatted_usernames = array_of_usernames.to_sentence
+
+    return formatted_usernames
   end
 end
