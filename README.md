@@ -14,14 +14,16 @@
 
     [https://chapters.firstdraft.com/chapters/773#a-special-sort-of-table-user-accounts](https://chapters.firstdraft.com/chapters/773#a-special-sort-of-table-user-accounts)
 
- 1. The `draft:account` generator does the standard work of building sign-in/sign-out infrastructure that nearly every application needs. Your job, then, is to use the `@current_user` variable that is now available in all actions and all view templates to make your application work like [the target](http://photogram-signin.matchthetarget.com).
+ 1. The `draft:account` generator does the standard work of building sign-in/sign-out infrastructure that nearly every application needs.
+ 2. You can now visit `/user_sign_in`, `/user_sign_up`, etc. You might want to make links your nav bar to make it easy to do so.
+ 3. Now that the user table exists and the sign-in/sign-out RCAVs exist, authentication is being done, and a cookie is being stored — your job, then, is to use the `@current_user` variable that is now available in all actions and all view templates to make your application work like [the target](http://photogram-signin.matchthetarget.com).
 
     This usually involves:
 
     - Directly assigning `@current_user.id` as a foreign key value instead of expecting the user to supply it via form inputs.
     - Narrowing down what data is sent to view templates from controller actions based on who is signed in and what they should and shouldn't.
     - Using `if` statements in view templates to hide and show things based on who the signed in user is, and what actions they have previously taken.
- 2. The old `User` model had a lot of handy instance methods. You might want to redefine them, to make your job easier; although using the more robust `has_many`/`belongs_to` technique might be a good idea. You may not need all of them for this project. You can use the Association Accessors wizard to help you:
+ 4. The old `User` model had a lot of handy instance methods. You might want to redefine them, to make your job easier; although using the more robust `has_many`/`belongs_to` technique might be a good idea. You may not need all of them for this project. You can use the Association Accessors wizard to help you:
 
     [https://association-accessors.firstdraft.com/](https://association-accessors.firstdraft.com/)
 
