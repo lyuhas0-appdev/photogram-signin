@@ -45,13 +45,4 @@ ActiveRecord::Schema.define(version: 2019_11_06_203639) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string "username"
-    t.boolean "private"
-    t.integer "likes_count"
-    t.integer "comments_count"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
 end
