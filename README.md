@@ -7,7 +7,7 @@
  1. We have removed the old model `User`. Use the `draft:account` generator to replace it:
 
     ```
-    rails generate draft:account user username
+    rails generate draft:account user username:string private:boolean likes_count:integer comments_count:integer
     ```
 
     Read about the `draft:account` generator:
