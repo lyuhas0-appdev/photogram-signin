@@ -16,15 +16,16 @@ class Photo < ApplicationRecord
   validates(:poster, { :presence => true })
   validates(:image, { :presence => true })
 
-  def poster
-    my_owner_id = self.owner_id
+  belongs_to(:poster, { :class_name => :User, :foreign_key => :owner_id})
+  # def poster
+  #   my_owner_id = self.owner_id
 
-    matching_users = User.where({ :id => my_owner_id })
+  #   matching_users = User.where({ :id => my_owner_id })
 
-    the_user = matching_users.at(0)
+  #   the_user = matching_users.at(0)
 
-    return the_user
-  end
+  #   return the_user
+  # end
 
   def comments
     my_id = self.id
