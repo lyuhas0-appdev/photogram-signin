@@ -21,25 +21,47 @@
     2 months ago
   </dd>
 
-  <dt>Edit photo</dt>
-  <dd>
-    <form action="/update_photo/<%= @the_photo.id %>">
-      <label for="browser_image">Image</label>
-      <input id="browser_image" type="text" name="query_image" placeholder="Enter a URL for the image..." value="<%= @the_photo.image %>">
+  <% if @current_user.username == @the_photo.poster.username %>
+    <dt>Edit photo</dt>
+    <dd>
+      <form action="/update_photo/<%= @the_photo.id %>">
+        <label for="browser_image">Image</label>
+        <input id="browser_image" type="text" name="query_image" placeholder="Enter a URL for the image..." value="<%= @the_photo.image %>">
 
-      <label for="browser_caption">Caption</label>
-      <textarea id="browser_caption" name="query_caption" placeholder="Enter a caption for the photo..."><%= @the_photo.caption %></textarea>
+        <label for="browser_caption">Caption</label>
+        <textarea id="browser_caption" name="query_caption" placeholder="Enter a caption for the photo..."><%= @the_photo.caption %></textarea>
 
-      <button>Update photo</button>
-    </form>
-  </dd>
+        <button>Update photo</button>
+      </form>
+    </dd>
 
-  <dt>Delete photo</dt>
-  <dd>
-    <a href="/delete_photo/<%= @the_photo.id %>;">
-      Delete this photo
-    </a>
-  </dd>
+    <dt>Delete photo</dt>
+    <dd>
+      <a href="/delete_photo/<%= @the_photo.id %>;">
+        Delete this photo
+      </a>
+    </dd>
+  <% end %>
+
+   <%# # CREATE
+
+  get("/insert_like_record", { :controller => "likes", :action => "create" })
+
+  # DELETE
+
+  get("/delete_like/:the_like_id", { :controller => "likes", :action => "destroy"}) %>
+  <% if @the_photo.fans.include?(@current_user)%>
+    <dt> Remove a fan </dt>
+    <dd>
+      <% the_like = @the_photo.likes.where({ :fan_id => @current_user.id }).at(0)%>
+      <a href="/delete_like/<%= the_like.id %>">Delete like </a>
+    </dd>
+  <% else %>
+    <dt> Add a fan </dt>
+    <dd>
+      <%= button_to("Like", "/insert_like_record", params: { :photo_id => @the_photo, :user_id => @current_user})%>
+    </dd>
+  <%end%>
 </dl>
 
 <h2>Comments</h2>
